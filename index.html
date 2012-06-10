@@ -4,6 +4,9 @@
 		<title>At Inclusion</title>
 		<meta charset="UTF-8">
 		<style>
+			*{
+				font-family:	serif;
+			}
 			h1, a{
 				color: #0070ff;
 			}
@@ -92,7 +95,11 @@
 		<div class="content">
 			<h1>At inclusion</h1>
 			
-			
+			<h2>Introduction</h2>
+			<p>This document is a proposition to handle <i>ajaxisation</i> using HTML and JavaScript's <i>location</i> API. 
+				<br/>To do so, a new part of URL is introduced: the <i>At Inclusion</i></p>
+			<p>At Inclusion simply describes what to load and where to inject the loaded contents.</p>
+			<p>You are free (and even encouraged) to ask questions, to make remarks, to share your opinion and fork it via github if you feel the need.</p>
 			
 			<h2>Abstract</h2>
 			<p><i>Ajaxising</i> a website has several benefits, as well for the webmasters as for their users [<a target="_blank" href="http://www.interaktonline.com/support/articles/Details/Ajax:+Asynchronously+Moving+Forward-Why+use+Ajax%3F.html?id_art=36&amp;id_asc=309">1</a>] : </p>
@@ -121,13 +128,14 @@
 			</ol>
 			<h2>Definitions</h2>
 			<ul>
-				<li><b>Inclusion (via URLs)</b> : any possible way to include remote contents in the current document via the URL 
+				<li><b>Inclusion (via URLs)</b>: any possible way to include remote contents in the current document via the URL 
 					(example: https://twitter.com/<b>#!/w3c</b>);</li>
-				<li><b>At Inclusion</b> : the proposed way to make inclusions;</li>
-				<li><b>At Inclusion pair</b> : a pair of this form : <i>CONTAINER_ID</i>=<i>URL</i>;</li>
-				<li><b>At Inclusion string</b> : a string containing a set of At Inclusion pairs;</li>
-				<li><b>At Inclusion operation</b> : the proposed ways to add, to remove and to replace At Inclusion pairs;</li>
-				<li><b>Operation string</b> : a string containing a set of At Inclusion operations.</li>
+				<li><b>At Inclusion</b>: the proposed way to make inclusions;</li>
+				<li><b>At Inclusion pair</b>: a pair of this form : <i>CONTAINER_ID</i>=<i>URL</i>;</li>
+				<li><b>At Inclusion string</b>: a string containing a set of At Inclusion pairs;</li>
+				<li><b>At Inclusion operation</b>: the proposed ways to add, to remove and to replace At Inclusion pairs;</li>
+				<li><b>Operation string</b>: a string containing a set of At Inclusion operations;</li>
+				<li><b><i>Ajaxisation</i></b>: in this document, Ajaxisation describes any method to load new contents asynchronously without reloading the whole document.</li>
 			</ul>
 			<h2>Objectives</h2>
 			
@@ -262,7 +270,7 @@
 			</ul>
 			<p class="note">NOTE: a way to use CORS with At Inclusion needs to be discussed.</p>
 			<p>Here is an activity diagram of how the requests would be handled: </p>
-			<p><img src="proposed_request_handle.png" style="width:900px"/></p>
+			<p><img src="proposed_request_handle.png" style="width:900px" alt="activity diagram"/></p>
 			
 			<h2>Setting At Inclusion pairs</h2>
 			<h3>Through HTMLAnchor Element</h3>
