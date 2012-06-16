@@ -40,7 +40,7 @@
 				color: white;
 				font-weight: bold;
 			}
-			code {
+			code, .code {
 				background-color: rgb(255, 255, 221);
 				font-size: 15px;
 				margin-left: 30px;
@@ -230,20 +230,20 @@
 </textarea>
 			</code>
 			<p>We can see that target3 depends on target1. Then the following URLs are correct :</p>
-			<code>
+			<div class="code">
 				<ul style="font-style: italic;">
 					<li>@<b>target2</b>=content2.html,<b>target1</b>=content1.html,<b>target1.target3</b>=content3.html</li>
 					<li>@<b>target1</b>=content1.html,<b>target2</b>=content2.html,<b>target1.target3</b>=content3.html</li>
 					<li>@<b>target1</b>=content1.html,<b>target1.target3</b>=content3.html,<b>target2</b>=content2.html</li>
 				</ul>
-			</code>
+			</div>
 			<p>But these URL are incorrect : </p>
-			<code>
+			<div class="code">
 				<ul>
 					<li><i>@<b>target2</b>=content2.html,<b>target1</b>=content1.html,<b>target3</b>=content3.html</i> <br/><span style="margin-left:30px">=> because target3 is not prefixed;</span></li>
 					<li><i>@<b>target2</b>=content2.html,<b>target1.target3</b>=content3.html,<b>target1</b>=content1.html</i> <br/><span style="margin-left:30px">=> because target3 is specified before target1.</span></li>
 				</ul>
-			</code>
+			</div>
 			
 			
 			<h2>At Inclusion operations</h2>
@@ -340,7 +340,7 @@
 			<p>Here are questions, needing to go further with that proposition</p>
 			<h3>Using At</h3>
 			<p>The At symbol is already used in URLs to identify a user (example : http://user:pwd@example.org/). This symbol seemed perfect to me, meaning <i>put something at somewhere</i>, 
-				but it seems 
+				but if that means that we cannot use this symbol anymore, another symbol must be found to replace it.</p>
 			<h3>Extension for files with HTML fragments</h3>
 			<p>Since we use files that do not have valid HTML content, is it pertinent to use the .html extension for these files? Perhaps the extension .htmlfr, 
 				that would stand for HTML fragment, would be a better choice ?</p>
