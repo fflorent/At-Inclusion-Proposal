@@ -98,12 +98,12 @@
 			
 			<h2>Introduction</h2>
 			<p>This document is a proposition to handle <i>ajaxisation</i> using HTML and JavaScript's <i>location</i> API. 
-			<p>To do so, a new part of URL is introduced: the <i>At Inclusion.</i>
-				<br/>At Inclusion simply describes what to load and where to inject the loaded contents.</p>
+			<p>To do so, a new part of the URL is introduced: the <i>At Inclusion.</i>
+				<br/><i>At Inclusion</i> simply describes what to load and where to inject the loaded contents.</p>
 			<p>You are free (and even encouraged) to ask questions, to make remarks, to share your opinion and fork it via github if you feel the need.</p>
 			
 			<h2>Abstract</h2>
-			<p><i>Ajaxising</i> a website has several benefits, as well for the webmasters as for their users [<a target="_blank" href="http://www.interaktonline.com/support/articles/Details/Ajax:+Asynchronously+Moving+Forward-Why+use+Ajax%3F.html?id_art=36&amp;id_asc=309">1</a>] : </p>
+			<p><i>Ajaxising</i> a website has several benefits, as well for the webmasters as for their users [<a target="_blank" href="http://www.interaktonline.com/support/articles/Details/Ajax:+Asynchronously+Moving+Forward-Why+use+Ajax%3F.html?id_art=36&amp;id_asc=309">1</a>], such as : </p>
 			<ol>
 				<li>it reduces the waiting time, since only a part of the document is requested; </li>
 				<li>it makes the interface more responsive, since only a part of the document is changed;</li>
@@ -111,11 +111,11 @@
 				<li>you can customize what happens when contents are requested, for example by adding animations.</li>
 			</ol>
 			<br/>
-			<p>However, there are five main drawbacks to use <i>Ajax</i> : </p>
+			<p>However, nowadays, there are also several main drawbacks to use <i>Ajax</i> : </p>
 			<ol>
-				<li>development time and cost is high;</li>
+				<li>development time and cost are high;</li>
 				<li>without framework, XMLHttpRequest is complex, and requires to know JavaScript;</li>
-				<li>ensuring that the website is indexed is not trivial;</li>
+				<li>ensuring that the website is indexed is not obvious;</li>
 				<li>some visitors do not have a browser with JavaScript enabled, and would not navigate through the website if the webmaster does not provide a solution;</li>
 				<li>managing the history and binding the URL to the current page is clearly difficult;</li>
 			</ol>
@@ -124,7 +124,7 @@
 			<ol>
 				<li>providing an easy way to request and to inject remote contents;</li>
 				<li>updating the URL and managing history as the user loads contents, so he can bookmark or share the URL of the current page;</li>
-				<li>giving to search engines the ability to index websites using At Inclusion;</li>
+				<li>giving to search engines the ability to index websites using <i>At Inclusion</i>;</li>
 				<li>being compatible with clients having JavaScript disabled;</li>
 			</ol>
 			<h2>Definitions</h2>
@@ -133,21 +133,21 @@
 					(example: https://twitter.com/<b>#!/w3c</b>);</li>
 				<li><b>At Inclusion</b>: the suggested way to make inclusions;</li>
 				<li><b>At Inclusion pair</b>: a pair of this form : <i>CONTAINER_ID</i>=<i>URL</i>;</li>
-				<li><b>At Inclusion string</b>: a string containing a set of At Inclusion pairs;</li>
-				<li><b>At Inclusion operation</b>: the suggested ways to add, to remove and to replace At Inclusion pairs;</li>
-				<li><b>Operation string</b>: a string containing a set of At Inclusion operations;</li>
+				<li><b>At Inclusion string</b>: a string containing a set of <i>At Inclusion</i> pairs;</li>
+				<li><b>At Inclusion operation</b>: the suggested ways to add, to remove and to replace <i>At Inclusion</i> pairs;</li>
+				<li><b>Operation string</b>: a string containing a set of <i>At Inclusion</i> operations;</li>
 				<li><b><i>Ajaxisation</i></b>: in this document, Ajaxisation describes any method to load new contents asynchronously without reloading the whole document.</li>
 			</ul>
 			<h2>Objectives</h2>
 			
 			<h3>Ease of use</h3>
 			<p>Whereas XMLHttpRequest is a complex object for beginners (who often use libraries instead of it directly), 
-				the feature must cover with an easy and rapid way the use case of the injection of remote HTML content, which is one of the most frequent.
+				the feature must cover with an easy and rapid way the use case of the injection of remote HTML content, which is one of the most frequently used.
 				<br/>A declarative approach would satisfy that constraint.</p>
 			<h3>Security strength</h3>
 			<p>The feature must prevent the user from creating security issues. The ability to handle <i>inclusions</i> in URLs is not only given to the webmaster, but also to anyone. </p>
 			<p>If the webmaster has not pointed out this issue, the user can easily create this kind of URL: <br/>http://mysite/mypage.html#<b>SOMEWHERE_UNEXPECTED=/something_I_dont_want_there.html</b></p>
-			<p>So the feature must go with a mechanism that gives the control to the webmaster to put <u>only what they want</u> and <u>only where they want</u>.</p>
+			<p>So the feature must go with a mechanism that gives the control to the webmaster to put <u>only the content they allow only where they allow</u>.</p>
 			
 			<h3><i>Crawlability</i></h3>
 			<p>Making <i>crawlable</i> an <i>ajaxised</i> website is one of the hardest challenges for a webmaster. 
@@ -160,23 +160,23 @@
 			
 			
 			<h2>The At Inclusion String</h2>
-			<p>At inclusion is a part of the structure of URL (like the query string), which gives the user-agent the contents to include in the document. An At Inclusion string is described by comma-separated series of pairs. Each pair contains :</p>
+			<p>At inclusion is a part of the structure of URL (like the query string), which gives the user-agent the contents to be included in the document. An <i>At Inclusion</i> string is described by comma-separated series of pairs. Each pair contains :</p>
 			<ul>
 				<li>the <b>key</b> which is the ID of the element where to inject the contents. We also name it the <b>target ID</b> and we call the matching element the <b>target element</b>;</li>
 				<li>the <b>value</b> which is the URL that leads to the contents to load. These contents are HTML content fragments.</li>
 			</ul>
 			<p>I do not know which elements can be a target. See <a href="#which_elements_can_be_a_target">Which elements can be a target</a>.</p>
-			<p>The At Inclusion string is located after the pathname, after the query string if it exists, and before the hash string.
-			An example of At Inclusion string is :</p>
+			<p>The <i>At Inclusion</i> string is located after the pathname, after the query string if it exists, and before the hash string.
+			An example of <i>At Inclusion</i> string is :</p>
 			<code>@id1=/to/my/remote/content.html,id2=relativepath/to/content.html</code>
-			<p>and an example of a full URL having an At Inclusion string :  </p>
+			<p>and an example of a full URL having an <i>At Inclusion</i> string :  </p>
 			<code>http://www.example.com/rep/mypage.html?query_key1=value1&amp;<b>@id1=/to/my/remote/content.html,id2=relativepath/to/content.html</b>#hashstring</code>
-			<p>When you set the At Inclusion string, only the contents of the targets whose URL have changed are updated (and the document is not fully reloaded).</p>
+			<p>When you set the <i>At Inclusion</i> string, only the contents of the targets whose URL have changed are updated (and the document is not fully reloaded).</p>
 			<p>When you change the content of a target element, the old content is put aside and removed from the document by the user-agent. 
 				This old content will be referred below as the <b>default content</b>.</p>
 			
-			<h3>Dealing with nested At Inclusion pairs</h3>
-			<p>Nested At Inclusion is the situation when you have a At Inclusion pair whose target exists only after another pair is loaded.</p>
+			<h3>Dealing with nested <i>At Inclusion</i> pairs</h3>
+			<p>Nested <i>At Inclusion</i> is the situation when you have a <i>At Inclusion</i> pair whose target exists only after another pair is loaded.</p>
 			<p>Let us name the first pair the <i>dependent</i> pair and the second the <i>depended</i> pair.<br/>The URL with these two pairs must have this form : </p>
 			<code style="font-size:14.3px">http://mysite/document.html@...<b>DEPENDED_TARGET</b>=DEPENDED_URL,...,<b><u>DEPENDED_TARGET.</u>DEPENDANT_TARGET</b>=DEPENDANT_URL</code>
 			<p>You would have noticed these two particularities : </p>
@@ -247,60 +247,61 @@
 			
 			
 			<h2>At Inclusion operations</h2>
-			<p>The At Inclusion operations consist in adding, replacing or removing pairs in the At Inclusion string. The string containing these operations will be referred further as the <b>operation string</b>.</p>
+			<p>The <i>At Inclusion</i> operations consist in adding, replacing or removing pairs in the <i>At Inclusion</i> string. The string containing these operations will be referred further as the <b>operation string</b>.</p>
 			<p>To remove an existing pair and restore the default content in the target, the operation string must include the minus (-) operator, followed by the target ID. For example: '@-target1'.</p>
 			<p>To add a new pair or to replace an existing one, the operation string must include the plus (+) operator followed by the pair to add/replace. For example: '@+target1=url1'. 
-				<br/>In the case of an addition, the pair is appended to the At Inclusion string, and in the case of a replacement, the new pair takes the place of the old one</p>
+				<br/>In the case of an addition, the pair is appended to the <i>At Inclusion</i> string, and in the case of a replacement, the new pair takes the place of the old one</p>
 			<div class="note">
 				<p>NOTES: </p>
 				<ol>
 					<li>you can mix the operations. For example: "@+target1=url1,-target2,+target3=url3...";</li>
 					<li>The operation string must begin with '@+' or '@-';</li>
-					<li>The operation string and the At Inclusion string are dissimilar. Obviously, this kind of At Inclusion string would be meaningless : '@id1=url1,-id2,+id3=url2...'</li>
+					<li>The operation string and the <i>At Inclusion</i> string are dissimilar. Obviously, this kind of <i>At Inclusion</i> string would be meaningless : '@id1=url1,-id2,+id3=url2...';</li>
 					<li>In an operation string, if no operation is specified before a pair, the latest operator is reused. 
-						For example, in "@+target1=url1,target2=url2,-target3", the second pair is not directly preceded by an operator, so the latest operator used (+) is reused.</li>
+						For example, in "@+target1=url1,target2=url2,-target3", the second pair is not directly preceded by an operator, so the latest operator used (+) is reused;</li>
+					<li>When the user copy the link location or when the cursors goes over a link with an operation string, the copied/displayed link must be the same as the new page location if they clicked on it.</li>
 				</ol>
 			</div>
 			
 			<h2>Processing the requests</h2>
 			<!--<h3>Pairs treatment</h3>
-			<h4>In case of At Inclusion addition/replacement</h4>
+			<h4>In case of <i>At Inclusion</i> addition/replacement</h4>
 			<p>For each target, the user-agent runs the requests that can be run immediately (i.e. the target is not prefixed or is prefixed by a treated target). <br/>
 				In case of missing target, the user-agent cancels the request and sends an error (see below).<br/>
-			<p>When the user-agent receives an URL with an At Inclusion string, it requests the main page and the URL of the At Inclusion pairs in separate threads. <br/>
+			<p>When the user-agent receives an URL with an <i>At Inclusion</i> string, it requests the main page and the URL of the <i>At Inclusion</i> pairs in separate threads. <br/>
 				As the main document is parsed, if the URL is successfully requested, the user-agent replaces the target of a pair by its content.
 				Otherwise, the user-agent displays the content of the target element, and injects the chunk once the request is finished.</p>-->
 			
 			<h3>Security with HTTP headers</h3>
-			<p>To avoid security issues, when processing the requests of the URLs in At Inclusion pairs, the user-agent sends the referer HTTP header (as usual), plus this header :</p>
+			<p>To avoid security issues, when processing the requests of the URLs in <i>At Inclusion</i> pairs, the user-agent sends the referer HTTP header (as usual), plus this header :</p>
 			<code>At-Inclusion-Target: <i>TARGET_ID</i></code>
 			<p>Then, the server-side configuration tells if the targeted file is designed to be used as an inclusion. If this is the case, the server looks at the permissions to include
 				the content of the file in the main document (using the referer) and at the specified target element (using At-Inclusion-Target). If the permission is <b>explicitly</b> given, the server sends back the content and includes in the response this header : </p>
 			<code>At-Inclusion-Allowed: true</code>
 			<p class="note">That header means that the permission is expressly given to include that content. If the response does not include this header, the user-agent must consider the response as if it was Forbidden (403). <br/>
 				Thus, it avoids security issues if the server is not configured.</p>
-			<p class="note">NOTE: a way to use CORS with At Inclusion needs to be discussed.</p>
+			<p class="note">NOTE: a way to use CORS with <i>At Inclusion</i> needs to be discussed.</p>
 			
 			<h3>Error handling</h3>
 			<h4>The request failed</h4>
 			<p><b>Proposition 1 : </b>If the request failed, the user-agent must show the error (HTTP status code + message) in the target element.</p>
 			<p><b>Proposition 2 : </b>If the request failed, the user-agent must unload the whole document and display what the server returned instead (ex.: the 404 page).</p>
 			<h4>The target does not exist</h4>
-			<p>If the target does not exist, the user-agent must not request the URL, and must instead remove the pair from the At Inclusion string in the URL. <br/>
+			<p>If the target does not exist, the user-agent must not request the URL, and must instead remove the pair from the <i>At Inclusion</i> string in the URL. <br/>
 				Then, it sends an error (or a warning?) to be displayed in the consoles, with that message : "the target was not found for the pair <i>PAIR</i>".</p>
 			<h3>Pairs treatment</h3>
 			<p>Here is an activity diagram of how the requests would be handled: </p>
 			<p><img src="proposed_request_handle.png" style="width:90%" alt="activity diagram"/></p>
 			
 			
-			<h2>Setting At Inclusion pairs</h2>
+			<h2>Setting <i>At Inclusion</i> pairs</h2>
 			<h3>Through HTMLAnchor Element</h3>
-			<p>To create an At Inclusion hyperlink, the At Inclusion string must be specified in an href attribute of an anchor: </p>
+			<p>To create an <i>At Inclusion</i> hyperlink, the <i>At Inclusion</i> string must be specified in an href attribute of an anchor: </p>
 			<code>&lt;a href='@target1=/to/content1.html,target2=/to/content2.html...'>Link text&lt;/a></code>
 			<p>And one can also specify an operation string in it : </p>
 			<code>&lt;a href='@+target1=/to/content1.html...'>Link text&lt;/a></code>
 			<h3>Through window.location API (JavaScript)</h3>
-			<p>The location.atinclusion property gets or sets the At Inclusion string in the URL. Moreover, an operation string can also be given to the setter : </p>
+			<p>The location.atinclusion property gets or sets the <i>At Inclusion</i> string in the URL. Moreover, an operation string can also be given to the setter : </p>
 			<code>
 				location.atinclusion = '@target1=/to/content1.html';<br/>
 				location.atinclusion; <span class="comment">// == '@target1=/to/content1.html</span><br/>
@@ -309,7 +310,7 @@
 				location.atinclusion = '@-target2,+target3=/to/content3.html';<br/>
 				location.atinclusion; <span class="comment">// == '@target1=/to/content1.html,target3=/to/content3.html'</span><br/>
 			</code>
-			<p>When an At Inclusion string or an At Inclusion operation string is given to location directly, the behaviour is the same as above : </p>
+			<p>When an <i>At Inclusion</i> string or an <i>At Inclusion</i> operation string is given to location directly, the behaviour is the same as above : </p>
 			<code>
 				location = '@target1=/to/content1.html';<br/>
 				location.atinclusion; <span class="comment">// == '@target1=/to/content1.html'</span><br/>
@@ -319,23 +320,26 @@
 			
 			
 			
-			<h2>Example of implementation</h2>
-			<p>A concrete example of implementation is given here : </p>
+			<h2>JS prototype</h2>
+			<p>A concrete prototype of implementation (in JS, though, but that is for an overview of the idea) is given here : </p>
 			<p><a href="http://fflorent.github.com/HUX" target="_blank">http://fflorent.github.com/HUX</a></p>
-			<p>Some points have not implemented yet, though: </p>
+			<p>In this site, each link uses At Inclusion. To test it, click on links in the menu. You will see the update of the URL in the location bar, for example : </p>
+			<p><a href="http://fflorent.github.com/HUX/?@container=contents/features.html,feature=contents/features/atinclusion.html">
+				http://fflorent.github.com/HUX/?@container=contents/features.html,feature=contents/features/atinclusion.html</a> (NOTE: the content must be outdated)</p>
+			<p>This site uses <i>At Inclusion</i> through the HUX Framework, that I develop.<br/>Some points have not implemented yet, though: </p>
 			<ul>
 				<li>the HTTP headers for security;</li>
 				<li>the dependent pairs are not prefixed.</li>
 			</ul>
-			<p>This site uses At Inclusion through the HUX Framework.</p>
-			<!--<p>At Inclusion is finally proposed to the WHATWG for these reasons : </p>
+			<p>So, Framework of this kind could be used for retro-compatibilities (with a lower performance, though).</p>
+			<p class="note">if you use IE 7/8/9, you may have noticed that At Inclusion pairs are converted to Hash bangs.</p>
+			<!--<p>Finally, At Inclusion is suggested to be implemented in user-agents for these reasons : </p>
 			<ul>
-				<li>to take advantage of implementation inside user-agents (for performance, the ability to add extra things we cannot with JavaScript, etc.);</li>
+				<li>to take advantage of implementation inside user-agents (such as the performance, the ability to add extra things we cannot with JavaScript, etc.);</li>
 				<li>to avoid the constraint of using server-side modules for indexation;</li>
+				<li>to 
 				<li>to standardize the principle, to make people trust in the technology they finally would use (in term of security, sustainability).</li>
-			</ul>
-			-->
-			
+			</ul>-->
 			<h2>Remaining questions</h2>
 			<p>Here are questions, needing to go further with that proposition</p>
 			<h3>Using At</h3>
@@ -346,7 +350,7 @@
 				that would stand for HTML fragment, would be a better choice ?</p>
 			
 			<h3>Deal with several elements having the same ID</h3>
-			<p>Even if that it should never occur, how should the user-agent deal when the target ID of an At Inclusion pair matches with several elements ? </p>
+			<p>Even if that it should never occur, how should the user-agent deal when the target ID of an <i>At Inclusion</i> pair matches with several elements ? </p>
 			<p>I think the question is easy to answer: the user-agent injects the content in the first pair in the DOM matching the ID, and then raises a warning.</p>
 			
 			<h3 id="which_elements_can_be_a_target">Which elements can be a target ?</h3>
@@ -354,7 +358,7 @@
 				a child element or text could be a target, except &lt;script&gt; and &lt;style&gt;</p>
 			<p>But what about elements that are not specified in the HTML5 specifications ?</p>
 			<h3>Events</h3>
-			<p>I think that there should be events that would go with the At Inclusion requests : </p>
+			<p>I think that there should be events that would go with the <i>At Inclusion</i> requests : </p>
 			<ul>
 				<li>on request begins</li>
 				<li>on request succeeded</li>
@@ -365,6 +369,7 @@
 			<h3>CSS / Animations ?</h3>
 			<p>I would also see the ability to apply specific CSS while the requests are running, and make animations before and after the targets are being updated.</p>
 			<p>The question is : how to trigger these animations ? Via Javascript ? Via CSS modifiers ? </p>
+			
 		</div>
 	</body>
 </html>
