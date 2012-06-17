@@ -100,7 +100,7 @@
 			<p>This document is a proposition to handle <i>ajaxisation</i> using HTML and JavaScript's <i>location</i> API. 
 			<p>To do so, a new part of the URL is introduced: the <i>At Inclusion.</i>
 				<br/><i>At Inclusion</i> simply describes what to load and where to inject the loaded contents.</p>
-			<p>You are free (and even encouraged) to ask questions, to make remarks, to share your opinion and fork it via github if you feel the need.</p>
+			<p>You are free (and even encouraged) to ask questions, to make remarks, to share your opinion and <a href="https://github.com/fflorent/At-Inclusion-Proposal" target="_blank">fork</a> it via github if you feel the need.</p>
 			
 			<h2>Abstract</h2>
 			<p><i>Ajaxising</i> a website has several benefits, as well for the webmasters as for their users [<a target="_blank" href="http://www.interaktonline.com/support/articles/Details/Ajax:+Asynchronously+Moving+Forward-Why+use+Ajax%3F.html?id_art=36&amp;id_asc=309">1</a>], such as : </p>
@@ -264,13 +264,6 @@
 			</div>
 			
 			<h2>Processing the requests</h2>
-			<!--<h3>Pairs treatment</h3>
-			<h4>In case of <i>At Inclusion</i> addition/replacement</h4>
-			<p>For each target, the user-agent runs the requests that can be run immediately (i.e. the target is not prefixed or is prefixed by a treated target). <br/>
-				In case of missing target, the user-agent cancels the request and sends an error (see below).<br/>
-			<p>When the user-agent receives an URL with an <i>At Inclusion</i> string, it requests the main page and the URL of the <i>At Inclusion</i> pairs in separate threads. <br/>
-				As the main document is parsed, if the URL is successfully requested, the user-agent replaces the target of a pair by its content.
-				Otherwise, the user-agent displays the content of the target element, and injects the chunk once the request is finished.</p>-->
 			
 			<h3>Security with HTTP headers</h3>
 			<p>To avoid security issues, when processing the requests of the URLs in <i>At Inclusion</i> pairs, the user-agent sends the referer HTTP header (as usual), plus this header :</p>
@@ -282,6 +275,10 @@
 				Thus, it avoids security issues if the server is not configured.</p>
 			<p class="note">NOTE: a way to use CORS with <i>At Inclusion</i> needs to be discussed.</p>
 			
+			<h3>Returned status codes</h3>
+			<p>If the status code is 200 or 304, the request has succeeded. Otherwise, if the status code is 301, 302, 303, or 307, 
+				see <a href="http://www.w3.org/TR/XMLHttpRequest/#infrastructure-for-the-send-method" target="_blank">http://www.w3.org/TR/XMLHttpRequest/#infrastructure-for-the-send-method</a> (for the same-origin case).</p>
+			<p>Other status code are treated as request errors.</p>
 			<h3>Error handling</h3>
 			<h4>The request failed</h4>
 			<p><b>Proposition 1 : </b>If the request failed, the user-agent must show the error (HTTP status code + message) in the target element.</p>
@@ -292,7 +289,7 @@
 			<h3>Pairs treatment</h3>
 			<p>Here is an activity diagram of how the requests would be handled: </p>
 			<p><img src="proposed_request_handle.png" style="width:90%" alt="activity diagram"/></p>
-			
+			<p>
 			
 			<h2>Setting <i>At Inclusion</i> pairs</h2>
 			<h3>Through HTMLAnchor Element</h3>
@@ -320,7 +317,7 @@
 			
 			
 			
-			<h2>JS prototype</h2>
+			<h2>Example of implementation in JS</h2>
 			<p>A concrete prototype of implementation (in JS, though, but that is for an overview of the idea) is given here : </p>
 			<p><a href="http://fflorent.github.com/HUX" target="_blank">http://fflorent.github.com/HUX</a></p>
 			<p>In this site, each link uses At Inclusion. To test it, click on links in the menu. You will see the update of the URL in the location bar, for example : </p>
@@ -333,13 +330,8 @@
 			</ul>
 			<p>So, Framework of this kind could be used for retro-compatibilities (with a lower performance, though).</p>
 			<p class="note">if you use IE 7/8/9, you may have noticed that At Inclusion pairs are converted to Hash bangs.</p>
-			<!--<p>Finally, At Inclusion is suggested to be implemented in user-agents for these reasons : </p>
-			<ul>
-				<li>to take advantage of implementation inside user-agents (such as the performance, the ability to add extra things we cannot with JavaScript, etc.);</li>
-				<li>to avoid the constraint of using server-side modules for indexation;</li>
-				<li>to 
-				<li>to standardize the principle, to make people trust in the technology they finally would use (in term of security, sustainability).</li>
-			</ul>-->
+			
+			
 			<h2>Remaining questions</h2>
 			<p>Here are questions, needing to go further with that proposition</p>
 			<h3>Using At</h3>
@@ -370,6 +362,20 @@
 			<p>I would also see the ability to apply specific CSS while the requests are running, and make animations before and after the targets are being updated.</p>
 			<p>The question is : how to trigger these animations ? Via Javascript ? Via CSS modifiers ? </p>
 			
+			<h3>Changing document title</h3>
+			<p>When the "main" content of the page is changed, the document title is expected to change too.</p>
+			<p>However, I have no idea yet how to set it up exactly. Should we use special tags for HTML fragment files?</p>
+			<p>And also, due to the asynchronous property of <i>At Inclusion</i>, there should be a way to say which pairs can change the title. </p><p>
+				My opinion is that one target, and one target of its child (i.e. dependent target), and one target of the latter's child, etc. can change it.
+				So we are sure that if we have @a=u1,a.b=u2,b.c=u3,b.d=u4,c.e=u5,x=u5 , where a,b,c can change the title, whatever the load order is for these targets, 
+				<b>c</b>'s title overrides <b>b</b>'s title which overrides <b>a</b>'s title. So <b>c</b>'s title is always shown with this <i>At Inclusion</i> string.</p>
+			<h3>Script execution order</h3>
+			<p>Due to the asynchronous property of <i>At Inclusion</i>, the execution order of the &lt;script&gt; tags in HTML fragments must be thinked.</p>
+			<p>There are 2 scenarios for that : </p>
+			<ul>
+				<li>the user browses the website;</li>
+				<li>the user loads a page using an URL with <i>At Inclusion</i> pairs.</li>
+			</ul>
 		</div>
 	</body>
 </html>
